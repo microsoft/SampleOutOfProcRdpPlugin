@@ -1,14 +1,21 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+## Proper Nouns
+1. `SamplePluginChannel`: DVC name used by `SampleApplication` and `SamplePlugin` to communicate.
+2. `com.microsoft.rdp.plugin.wtsplugin`: 
+3. `SamplePlugin`: Display name of the plugin msix.
+4. `7B426A55-B731-482B-9D35-CF2A810712CB`: CLSID of the COM class that the `SamplePluginMsix` invokes.
 
-As the maintainer of this project, please make a few updates:
+## Disclaimer
+1. This solution is only meant to be run with Release/x64 configuration.
+2. This solution is not meant to be run in a production environment. This is just "a way" to write out of proc RDP plugins packaged as msix. 
+   This is by no means the best way to write RDP plugins. For example, this plugin replaces the boilerplate COM APIs like AddRef, Release, QueryInterface with Windows Runtime C++ Template Library (WRL). One might do the same using WinRT, ATL, etc.
+3. The solution has not been tested for security vulnerabilities.
 
-- Improving this README.MD file to provide a great experience
+
+# Maintainer Notes
 - Updating SUPPORT.MD with content about this project's support experience
 - Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
 
 ## Contributing
 

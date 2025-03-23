@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:uap11="http://schemas.microsoft.com/appx/manifest/uap/windows10/11"
+  xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
+  
+  IgnorableNamespaces="uap uap10 uap11 rescap uap18">
+    
+    <Identity
+      Name="fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c"
+      Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+      Version="1.0.29.0" />
+
+    <Properties>
+        <DisplayName>SamplePluginModel</DisplayName>
+        <PublisherDisplayName>Microsoft Corp</PublisherDisplayName>
+        <Logo>Images\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.26226.0" />
+        <PackageDependency
+           Name="Microsoft.VCLibs.140.00"
+           Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+           MinVersion="14.0.0.0" />
+	</Dependencies>
+
+    <Resources>
+        <Resource Language="x-generate"/>
+    </Resources>
+
+    <Applications>
+        <Application
+            Id="App"
+            Executable="$targetnametoken$.exe"
+            EntryPoint="Windows.FullTrustApplication"
+			uap18:EntryPoint="Isolated.App" 
+			uap18:TrustLevel="appContainer"
+			uap18:RuntimeBehavior="appSilo">
+
+            <uap:VisualElements
+                AppListEntry="none"
+                DisplayName="SamplePlugin"
+                Description="This is a sample plugin that is meant to demo sample out of proc plugin capabilities."
+                BackgroundColor="transparent"
+                Square150x150Logo="Images\Square150x150Logo.png"
+                Square44x44Logo="Images\Square44x44Logo.png">
+                <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+                <uap:SplashScreen Image="Images\SplashScreen.png" />
+            </uap:VisualElements>
+
+            <Extensions>
+                <com:Extension Category="windows.comServer">
+                    <com:ComServer>
+                        <!-- Following relative path works because SamplePlugin is added as a reference project to SamplePluginMsix project -->
+                        <com:ExeServer Executable="SamplePlugin\SamplePlugin.exe">
+                            <!-- https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-com-exeserver-class -->
+                            <com:Class Id="7B426A55-B731-482B-9D35-CF2A810712CB" DisplayName="CLSID_CToyPlugin"></com:Class>
+                        </com:ExeServer>
+                    </com:ComServer>
+                </com:Extension>
+                <com:Extension Category="windows.comInterface">
+                    <com:ComInterface>
+                        <!-- How to get Id below: https://learn.microsoft.com/en-us/windows/win32/midl/c-compiler-definitions-for-proxy-stubs -->
+                        <com:ProxyStub Id="a1230201-1439-4e62-a414-190d0ac3d40e" Path="SamplePluginProxyStub.dll" />
+                    </com:ComInterface>
+                </com:Extension>
+                <uap3:Extension Category="windows.appExtension">
+                    <uap3:AppExtension
+                        Name="com.microsoft.rdp.plugin.wtsplugin"
+                        Id="SamplePlugin"
+                        DisplayName="Sample Plugin"
+                        Description="Sample plugin for the UWP app."
+                        PublicFolder="Public">
+                        <uap3:Properties>
+                            <ComServer>7B426A55-B731-482B-9D35-CF2A810712CB</ComServer>
+                        </uap3:Properties>
+                    </uap3:AppExtension>
+                </uap3:Extension>
+            </Extensions>
+        </Application>
+    </Applications>
+
+    <Capabilities>
+        <rescap:Capability
+		  Name="userPrincipalName" />
+        <rescap:Capability
+		  Name="isolatedWin32-accessToPublisherDirectory" />
+        <rescap:Capability
+		  Name="packageQuery" />
+        <rescap:Capability
+		  Name="packageManagement" />
+        <rescap:Capability
+		  Name="lpacMedia" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <rescap:Capability
+		  Name="locationHistory" />
+        <rescap:Capability
+		  Name="xboxAccessoryManagement" />
+        <rescap:Capability
+		  Name="childWebContent" />
+        <rescap:Capability
+		  Name="isolatedWin32-userProfileMinimal" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <Capability
+		  Name="internetClientServer" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <Capability
+		  Name="privateNetworkClientServer" />
+        <uap:Capability
+		  Name="sharedUserCertificates" />
+        <!--Include (uncomment) the capability below if, when your application is denied access to a file, you'd like the user to be prompted for access. This is not recommended unless it unblocks critical application scenarios. See summary.txt for details on files impacted under missing capability coverage for Type: File.-->
+        <rescap:Capability
+		  Name="isolatedWin32-promptForAccess" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <Capability
+		  Name="internetClient" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <rescap:Capability
+		  Name="runFullTrust" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <DeviceCapability
+		  Name="wiFiControl" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <DeviceCapability
+		  Name="webcam" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <DeviceCapability
+		  Name="microphone" />
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <DeviceCapability
+		  Name="location" />
+    </Capabilities>
+</Package>

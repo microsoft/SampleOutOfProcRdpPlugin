@@ -30,3 +30,42 @@
 *.exe
 *.out
 *.app
+
+# MSIX build output
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.appxupload
+*.msixupload
+*.dll
+*.pfx
+
+# Visual Studio user specific files
+*.cache
+*.user
+*.tlog
+
+# Visual Studio build directories
+/bin/
+/obj/
+
+# Package dependency cache
+.vscode/
+.vs/
+packages/
+
+# All builds
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/Debug*/
+**/Release*/
+**/AppPackages*/
+**/x64/
+**/x86/
+**/BundleArtifacts/
+**/*_p.c
+**/*_h.h
+**/*_i.c
