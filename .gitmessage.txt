@@ -1,0 +1,11 @@
+# Commit Title (One Line Summary)
+# Example: feature: Add OAuth2 Authentication
+
+[Description]
+- What changed?
+- Why was this change made?
+- Any references (issue numbers, links, etc.)?
+- Tested?
+
+[Ticket/Issue ID]
+Example: #1234
