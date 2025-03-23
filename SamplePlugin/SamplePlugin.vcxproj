@@ -61,6 +61,9 @@
     <ClInclude Include="ToyPlugin.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
     <ClCompile Include="IWTSWindowChangedCallbackImpl.cpp" />
     <ClCompile Include="ToyPluginImpl.cpp" />
     <ClCompile Include="IWTSVirtualChannelCallbackImpl.cpp" />

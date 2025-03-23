@@ -69,3 +69,4 @@ packages/
 **/*_p.c
 **/*_h.h
 **/*_i.c
+**/dlldata.c
