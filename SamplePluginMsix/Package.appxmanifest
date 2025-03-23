@@ -16,7 +16,7 @@
     <Identity
       Name="fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c"
       Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-      Version="1.0.29.0" />
+      Version="1.0.31.0" />
 
     <Properties>
         <DisplayName>SamplePluginModel</DisplayName>

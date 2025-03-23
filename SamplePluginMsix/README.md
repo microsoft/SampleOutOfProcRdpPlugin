@@ -17,7 +17,7 @@ To be able to generate and install the msix, do the following.
 13. Test-Path -Path $CertFilePath
 
 ## Sign the msix using the above certificate
-Right click on `SamplePluginModelToyMsix` project -> Publish -> Create App Packages... In the prompt select the `.pfx` that was created above. This generates the `msix`.
+Right click on `SamplePluginMsix` project -> Publish -> Create App Packages... In the prompt select the `.pfx` that was created above. This generates the `msix`.
 
 ## Install the msix now.
 
