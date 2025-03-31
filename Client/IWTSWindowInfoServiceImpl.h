@@ -12,7 +12,7 @@ public:
     IFACEMETHODIMP GetWindowInfo(HWND remoteHwnd);
     IFACEMETHODIMP GetRdpClientProcessId();
     IFACEMETHODIMP GetRdpSessionType();
-    IFACEMETHODIMP SubscribeWindowChanged(HWND remoteHwnd, IWTSWindowChangedCallback* windowChanged);
-    IFACEMETHODIMP UnsubscribeWindowChanged(HWND remoteHwnd, IWTSWindowChangedCallback* windowChanged);
+    IFACEMETHODIMP SubscribeWindowChanged(HWND remoteHwnd, IWTSWindowChangedCallback* windowChangedCallback);
+    IFACEMETHODIMP UnsubscribeWindowChanged(HWND remoteHwnd, IWTSWindowChangedCallback* windowChangedCallback);
 };
 

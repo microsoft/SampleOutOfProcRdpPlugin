@@ -151,12 +151,14 @@ HRESULT Utils::LoadOneSamplePlugin(__in CLSID pluginClassId)
         // The CreatePlugin does the actual MakeAndInitialize call with a concrete class (rather than interface IWTSPlugin)
         Microsoft::WRL::ComPtr<IWTSPlugin> plugin;
 
-        // TODO
         hr = pluginFactory->CreatePlugin(counter, &plugin);
 
         if (FAILED(hr)) {
             std::wcout << "CreatePlugin for index " << counter << " in PluginFactory" << pluginId << " failed with HRESULT 0x % " << hr << std::endl;
             continue; // Continue to the next plugin if there’s an error
+        }
+        else {
+          std::wcout << "CreatePlugin for index " << counter << " in PluginFactory" << pluginId << " succeeded." << std::endl;
         }
 
         hr = AddPluginWithFactory(plugin.Detach(), pluginFactory.Detach());
@@ -164,8 +166,10 @@ HRESULT Utils::LoadOneSamplePlugin(__in CLSID pluginClassId)
             std::wcout << "AddPlugin to DVC Manager for index " << counter << " in PluginFactory " << pluginId << " failed with HRESULT 0x % " << hr << std::endl;
             continue;
         }
+        else {
+            std::wcout << "AddPlugin to DVC Manager for index " << counter << " in PluginFactory " << pluginId << " succeeded." << std::endl;
+        }
     }
-
     return hr;
 }
 

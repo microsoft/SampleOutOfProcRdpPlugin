@@ -392,6 +392,7 @@ interface IWTSBitmapRenderService : IUnknown
 };
 
 
+declare_guid(CLSID_SamplePluginProxyStub, A9FA1CF7-3024-433B-86A7-950621770265);
 [
     object,
     uuid(C0C62619-3BC1-4095-9B9A-84503E37DAA5),

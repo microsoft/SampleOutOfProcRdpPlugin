@@ -13,6 +13,7 @@ IFACEMETHODIMP CToyPluginImpl::Initialize(IWTSVirtualChannelManager* pChannelMgr
     _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_INFO_SERVICE, &_pWindowInfoService);
 
     unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
+    std::wcout << "Creating listener for channel SamplePluginChannel." << std::endl;
     return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
 }
 

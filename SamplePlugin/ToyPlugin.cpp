@@ -18,15 +18,17 @@ IFACEMETHODIMP CToyPlugin::CreatePlugin(long index, IWTSPlugin** plugin)
 {
     if (!plugin)
     {
-        Log(L"plugin is null", E_POINTER);
+        std::wcout << "CreatePlugin failed as plugin is null. error:" << E_POINTER << std::endl;
         return E_POINTER;
     }
 
-    if (index != 1)
+    if (index != 0)
     {
-        Log(L"index not 1", E_NOTIMPL);
+        std::wcout << "CreatePlugin failed as index is " << index << ". error:" << E_NOTIMPL << std::endl;
         return E_NOTIMPL;
     }
+
+    std::wcout << "Creating plugin using CToyPluginImpl." << std::endl;
 
     ComPtr<CToyPluginImpl> pToyPlugin;
     HRESULT hr = MakeAndInitialize<CToyPluginImpl>(&pToyPlugin);

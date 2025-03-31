@@ -14,11 +14,11 @@ int main()
     std::vector<CLSID> classIds  = utils.GetRdpPluginClassIds();
     std::cout << "RDP Plugin class ids fetched." << std::endl;
     utils.PrintPluginComClsIds(classIds);
-    _ = _getch();
 
+    std::cout << "Press any key to load all plugins." << std::endl;
+    _ = _getch();
     utils.LoadAllSamplePlugins(classIds);
     std::cout << "All plugins successfully loaded." << std::endl;
-    _ = _getch();
 
     // Wait for user input before closing the program.
     std::cout << "Closing the app now on pressing of any key." << std::endl;

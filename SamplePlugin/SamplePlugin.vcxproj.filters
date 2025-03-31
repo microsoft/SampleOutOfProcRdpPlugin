@@ -67,11 +67,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SamplePluginMsix\README.md" />
-  </ItemGroup>
-  <ItemGroup>
     <Midl Include="..\IWTSPlugin.idl">
       <Filter>Source Files</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

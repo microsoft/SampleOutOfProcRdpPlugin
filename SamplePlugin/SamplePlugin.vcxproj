@@ -72,10 +72,10 @@
     <ClCompile Include="ToyPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SamplePluginMsix\README.md" />
+    <Midl Include="..\IWTSPlugin.idl" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="..\IWTSPlugin.idl" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
