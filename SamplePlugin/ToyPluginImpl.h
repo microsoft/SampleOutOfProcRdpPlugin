@@ -5,6 +5,7 @@
 #include <wrl.h>
 #include <wrl/implements.h>
 #include <wrl/module.h>
+#include "Compositor.h"
 
 using namespace Microsoft::WRL;
 
@@ -32,5 +33,7 @@ public:
 private:
     ComPtr<IWTSListener> _pListener;
     ComPtr<IWTSWindowInfoService> _pWindowInfoService;
+    ComPtr<IWTSWindowParentService> _pWindowParentService;
     ComPtr<IWTSPluginServiceProvider> _pPluginServiceProvider;
+    Compositor _compositor;
 };

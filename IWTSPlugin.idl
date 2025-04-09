@@ -19,6 +19,11 @@ cpp_quote("EXTERN_GUID( RDCLIENT_REMOTE_APP_WINDOW_INFO_SERVICE, 0x10d23864, 0xc
 // IWTSPluginServiceProvider::GetService
 cpp_quote("EXTERN_GUID( RDCLIENT_WINDOW_INFO_SERVICE, 0xa9a17a6b, 0xcdb3, 0x4e81, 0xb5, 0xc8, 0xbd, 0x63, 0x82, 0x2a, 0x8d, 0x6c);")
 
+//
+// Use this service GUID to retrieve RDCLIENT_WINDOW_INFO_SERVICE through
+// IWTSPluginServiceProvider::GetService
+cpp_quote("EXTERN_GUID( RDCLIENT_WINDOW_PARENT_SERVICE, 0xe6b21d8e, 0x3866, 0x47c7, 0xb3, 0xc3, 0x72, 0x72, 0xc6, 0x11, 0x3e, 0x80);")
+
 
 //
 // =========================================================================
@@ -423,7 +428,6 @@ interface IWTSPluginFactory : IUnknown
 ]
 interface IWTSRemoteAppWindowInfoService : IUnknown
 {
-    [helpstring("GetLocalHwnd")]
         HRESULT GetLocalHwnd(
             [in] unsigned int remoteWindowId,
             [out, retval] HWND* localHwnd
@@ -467,7 +471,6 @@ typedef struct WTSWindowInfo
 ]
 interface IWTSWindowChangedCallback : IUnknown
 {
-    [helpstring("WindowChanged")]
         HRESULT WindowChanged(
             [in] const WTSWindowInfo* windowInfo
         );
@@ -492,31 +495,46 @@ interface IWTSWindowChangedCallback : IUnknown
 ]
 interface IWTSWindowInfoService : IUnknown
 {
-    [helpstring("GetWindowInfo")]
         HRESULT GetWindowInfo(
             [in] HWND remoteHwnd,
             [out] WTSWindowInfo* windowInfo
         );
 
-    [helpstring("GetRdpClientProcessId")]
         HRESULT GetRdpClientProcessId(
             [out, retval] unsigned long* processId
         );
 
-    [helpstring("GetRdpSessionType")]
         HRESULT GetRdpSessionType(
             [out, retval] RdpSessionType* sessionType
         );
 
-    [helpstring("SubscribeWindowChanged")]
         HRESULT SubscribeWindowChanged(
             [in] HWND remoteHwnd,
             [in] IWTSWindowChangedCallback* windowChanged
         );
 
-    [helpstring("UnsubscribeWindowChanged")]
         HRESULT UnsubscribeWindowChanged(
             [in] HWND remoteHwnd,
             [in] IWTSWindowChangedCallback* windowChanged
         );
+};
+
+
+typedef enum RdpContainerWindow
+{
+    UIMain = 0,
+    UIContainer = 1,
+    OPContainer = 2
+} RdpContainerWindow;
+
+[
+    object,
+    uuid(5258E7A7-A2AB-4F4E-BD20-0806DA750C7D),
+]
+interface IWTSWindowParentService : IUnknown
+{
+    HRESULT SetParent(
+        [in] HWND remoteHwnd,
+        [in] RdpContainerWindow containerWindowType,
+        [in] HWND childWindow);
 };
