@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SamplePluginProxyStub.def">
+    <None Include="IWTSPlugin.def">
       <Filter>Source Files</Filter>
     </None>
     <None Include="README.md" />

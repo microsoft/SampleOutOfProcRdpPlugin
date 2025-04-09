@@ -2,6 +2,8 @@ import "oaidl.idl";
 import "ocidl.idl";
 import "d3d11.idl";
 
+declare_guid(CLSID_IWTSPluginProxy, A9FA1CF7-3024-433B-86A7-950621770265);
+
 interface IWTSPlugin;
 interface IWTSListener;
 interface IWTSListenerCallback;

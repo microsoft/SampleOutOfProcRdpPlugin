@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePluginProxyStub", "SamplePluginProxyStub\SamplePluginProxyStub.vcxproj", "{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IWTSPluginProxy", "IWTSPluginProxy\IWTSPluginProxy.vcxproj", "{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,16 +95,16 @@ Global
 		{CADFAA17-57AC-4AE5-B2B3-611E12A077E3}.Release|x64.Build.0 = Release|x64
 		{CADFAA17-57AC-4AE5-B2B3-611E12A077E3}.Release|x64.Deploy.0 = Release|x64
 		{CADFAA17-57AC-4AE5-B2B3-611E12A077E3}.Release|x86.ActiveCfg = Release|x86
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|Any CPU.Build.0 = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM.ActiveCfg = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM.Build.0 = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM64.ActiveCfg = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM64.Build.0 = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x64.ActiveCfg = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x64.Build.0 = Debug|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x86.ActiveCfg = Debug|Win32
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x86.Build.0 = Debug|Win32
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|Any CPU.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|Any CPU.Build.0 = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM.Build.0 = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM64.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|ARM64.Build.0 = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x64.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x64.Build.0 = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x86.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Debug|x86.Build.0 = Release|x64
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|Any CPU.ActiveCfg = Release|x64
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|Any CPU.Build.0 = Release|x64
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|ARM.ActiveCfg = Release|x64
@@ -113,8 +113,8 @@ Global
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|ARM64.Build.0 = Release|x64
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x64.ActiveCfg = Release|x64
 		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x64.Build.0 = Release|x64
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x86.ActiveCfg = Release|Win32
-		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x86.Build.0 = Release|Win32
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x86.ActiveCfg = Release|x64
+		{34AD6F3D-9DB1-4949-BC46-A2C9D6F7B381}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

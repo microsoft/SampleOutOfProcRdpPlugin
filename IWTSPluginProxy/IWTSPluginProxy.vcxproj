@@ -10,7 +10,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{34ad6f3d-9db1-4949-bc46-a2c9d6f7b381}</ProjectGuid>
-    <RootNamespace>SamplePluginProxyStub</RootNamespace>
+    <RootNamespace>IWTSPluginProxy</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -36,7 +36,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PROXY_CLSID=CLSID_SamplePluginProxyStub;REGISTER_PROXY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PROXY_CLSID=CLSID_IWTSPluginProxy;REGISTER_PROXY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -48,7 +48,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);rpcns4.lib;rpcrt4.lib;onecoreuap.lib;</AdditionalDependencies>
-      <ModuleDefinitionFile>SamplePluginProxyStub.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>IWTSPluginProxy.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <OutputDirectory>../MidlGeneratedFiles</OutputDirectory>
@@ -64,16 +64,10 @@
       <GenerateServerFiles />
       <IgnoreStandardIncludePath />
     </Midl>
-    <PostBuildEvent>
-      <Command>xcopy /Y /D "$(TargetDir)SamplePluginProxyStub.dll" "$(SolutionDir)SamplePluginMsix\"</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Copies the dll generated at SamplePluginModelToy\x64\Release\SamplePluginProxyStub.dll to SamplePluginMsix\</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="README.md" />
-    <None Include="SamplePluginProxyStub.def" />
+    <None Include="IWTSPluginProxy.def" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\IWTSPlugin.idl" />
