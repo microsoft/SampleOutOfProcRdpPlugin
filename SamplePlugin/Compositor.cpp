@@ -18,6 +18,33 @@ Compositor::~Compositor()
     }
 }
 
+HRESULT Compositor::Run(ComPtr<IWTSWindowParentService> pWindowParentService)
+{
+    IStream* pStream;
+    Log(L"CoMarshalInterThreadInterfaceInStream", ::CoMarshalInterThreadInterfaceInStream(
+        __uuidof(IWTSWindowParentService),
+        pWindowParentService.Get(),
+        &pStream
+    ));
+
+    m_thread = std::thread(&Compositor::WorkerThreadMain, this, pStream);
+
+    return S_OK;
+}
+
+HRESULT Compositor::Shutdown()
+{
+    if (m_containerHwnd) {
+        ::PostMessage(m_containerHwnd, WM_CLOSE, 0, 0);
+    }
+
+    if (m_thread.joinable()) {
+        m_thread.join();
+    }
+
+    return S_OK;
+}
+
 // ----------------------------------------------------------------------------
 // Static window procedures
 // ----------------------------------------------------------------------------
@@ -108,7 +135,7 @@ HRESULT Compositor::CreateContainerWindow()
         NULL                       // Additional app data
     );
 
-    return m_containerHwnd ? S_OK : ::GetLastError();
+    return m_containerHwnd ? S_OK : HRESULT_FROM_WIN32(::GetLastError());
 }
 
 // ----------------------------------------------------------------------------
@@ -117,17 +144,17 @@ HRESULT Compositor::CreateContainerWindow()
 HRESULT Compositor::CreateCompositorWindow()
 {
     // Register a window class for the compositor window.
-    WNDCLASSA wndclass{};
+    WNDCLASS wndclass{};
     wndclass.lpfnWndProc = CompositorWndProc;
     wndclass.hInstance = m_instance;
-    wndclass.lpszClassName = "CompositorVdiWindow";
-    ::RegisterClassA(&wndclass);
+    wndclass.lpszClassName = L"CompositorVdiWindow";
+    ::RegisterClass(&wndclass);
 
     // Create the compositor window as a child of the container.
-    m_compositorHwnd = ::CreateWindowExA(
+    m_compositorHwnd = ::CreateWindowEx(
         0,
-        "CompositorVdiWindow",
-        "Child Window",
+        L"CompositorVdiWindow",
+        L"Child Window",
         WS_CHILD | WS_VISIBLE,
         50, 50, 300, 200,
         m_containerHwnd,
@@ -136,21 +163,7 @@ HRESULT Compositor::CreateCompositorWindow()
         NULL
     );
 
-    return m_compositorHwnd ? S_OK : ::GetLastError();
-}
-
-HRESULT Compositor::Run(ComPtr<IWTSWindowParentService> pWindowParentService)
-{
-    IStream* pStream;
-    Log(L"CoMarshalInterThreadInterfaceInStream", ::CoMarshalInterThreadInterfaceInStream(
-        __uuidof(IWTSWindowParentService),
-        pWindowParentService.Get(),
-        &pStream
-    ));
-
-    m_thread = std::thread(&Compositor::WorkerThreadMain, this, pStream);
-
-    return S_OK;
+    return m_compositorHwnd ? S_OK : HRESULT_FROM_WIN32(::GetLastError());
 }
 
 // ----------------------------------------------------------------------------

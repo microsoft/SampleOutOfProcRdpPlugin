@@ -2,9 +2,9 @@
 
 #include <windows.h>
 #include <thread>
+#include <wrl.h>
 #include "IWTSPlugin_h.h"
 #include "Log.h"
-#include <wrl.h>
 
 using Microsoft::WRL::ComPtr;
 
@@ -15,6 +15,7 @@ public:
     ~Compositor();
 
     HRESULT Run(ComPtr<IWTSWindowParentService> pWindowParentService);
+    HRESULT Shutdown();
 
 private:
 
