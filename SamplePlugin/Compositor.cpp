@@ -116,9 +116,8 @@ HRESULT Compositor::CreateContainerWindow()
 
     if (!::RegisterClassEx(&wc))
     {
-        return NULL;
+        return HRESULT_FROM_WIN32(::GetLastError());
     }
-
     // Create the window
     m_containerHwnd = ::CreateWindowEx(
         0,                       // Optional window style extensions
