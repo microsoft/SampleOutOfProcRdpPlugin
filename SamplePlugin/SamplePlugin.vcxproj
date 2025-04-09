@@ -39,6 +39,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>../MidlGeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -53,6 +54,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h" />
+    <ClInclude Include="Compositor.h" />
     <ClInclude Include="IWTSWindowChangedCallbackImpl.h" />
     <ClInclude Include="ToyPluginImpl.h" />
     <ClInclude Include="IWTSVirtualChannelCallbackImpl.h" />
@@ -64,6 +66,7 @@
     <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
+    <ClCompile Include="Compositor.cpp" />
     <ClCompile Include="IWTSWindowChangedCallbackImpl.cpp" />
     <ClCompile Include="ToyPluginImpl.cpp" />
     <ClCompile Include="IWTSVirtualChannelCallbackImpl.cpp" />
