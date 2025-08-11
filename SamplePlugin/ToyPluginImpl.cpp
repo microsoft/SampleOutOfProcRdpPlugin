@@ -9,12 +9,18 @@
 // IWTSVirtualChannelManager is thus, passed to the plugin by the Remote Desktop Services subsystem.
 IFACEMETHODIMP CToyPluginImpl::Initialize(IWTSVirtualChannelManager* pChannelMgr)
 {
-    pChannelMgr->QueryInterface(IID_PPV_ARGS(&_pPluginServiceProvider));
-    _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_INFO_SERVICE, &_pWindowInfoService);
-
     unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
-    std::wcout << "Creating listener for channel SamplePluginChannel." << std::endl;
+    std::wcout << "Creating listener for channel SamplePluginChannel from CToyPluginImpl::Initialize." << std::endl;
     return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
+    return S_OK;
+}
+
+IFACEMETHODIMP CToyPluginImpl::InitializeWithChannelManager(IWTSVirtualChannelManager* pChannelMgr)
+{
+    unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
+    std::wcout << "Creating listener for channel SamplePluginChannel from CToyPluginImpl::InitializeWithChannelManager." << std::endl;
+    return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
+    return S_OK;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Connected(void)

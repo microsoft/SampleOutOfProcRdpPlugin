@@ -29,6 +29,8 @@ public:
         BSTR data, BOOL* pbAccept,
         IWTSVirtualChannelCallback** ppCallback) override;
 
+    IFACEMETHODIMP InitializeWithChannelManager(IWTSVirtualChannelManager* pChannelMgr);
+
 private:
     ComPtr<IWTSListener> _pListener;
     ComPtr<IWTSWindowInfoService> _pWindowInfoService;
