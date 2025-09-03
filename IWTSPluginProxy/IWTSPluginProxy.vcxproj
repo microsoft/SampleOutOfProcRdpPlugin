@@ -9,13 +9,13 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7411388b-8a97-490e-9031-b82f1a61c205}</ProjectGuid>
-    <RootNamespace>SamplePlugin</RootNamespace>
+    <ProjectGuid>{34ad6f3d-9db1-4949-bc46-a2c9d6f7b381}</ProjectGuid>
+    <RootNamespace>IWTSPluginProxy</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -36,49 +36,49 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PROXY_CLSID=CLSID_IWTSPluginProxy;REGISTER_PROXY_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>../MidlGeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);WindowsApp.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);rpcns4.lib;rpcrt4.lib;onecoreuap.lib;</AdditionalDependencies>
+      <ModuleDefinitionFile>IWTSPluginProxy.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <OutputDirectory>../MidlGeneratedFiles</OutputDirectory>
+      <EnableWindowsRuntime />
+      <GenerateStublessProxies />
+      <MetadataFileName />
+      <HeaderFileName>%(Filename)_h.h</HeaderFileName>
+      <DllDataFileName />
+      <InterfaceIdentifierFileName />
+      <ProxyFileName />
+      <GenerateTypeLibrary>true</GenerateTypeLibrary>
+      <GenerateClientFiles />
+      <GenerateServerFiles />
+      <IgnoreStandardIncludePath />
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h" />
-    <ClInclude Include="Compositor.h" />
-    <ClInclude Include="IWTSWindowChangedCallbackImpl.h" />
-    <ClInclude Include="ToyPluginImpl.h" />
-    <ClInclude Include="IWTSVirtualChannelCallbackImpl.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="ToyPlugin.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
-    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
-    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
-    <ClCompile Include="Compositor.cpp" />
-    <ClCompile Include="IWTSWindowChangedCallbackImpl.cpp" />
-    <ClCompile Include="ToyPluginImpl.cpp" />
-    <ClCompile Include="IWTSVirtualChannelCallbackImpl.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="ToyPlugin.cpp" />
+    <None Include="README.md" />
+    <None Include="IWTSPluginProxy.def" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\IWTSPlugin.idl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
+    <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

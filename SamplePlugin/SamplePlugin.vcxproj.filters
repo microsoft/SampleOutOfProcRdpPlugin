@@ -36,6 +36,9 @@
     <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Compositor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Compositor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

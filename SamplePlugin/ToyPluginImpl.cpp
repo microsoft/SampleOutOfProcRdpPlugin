@@ -9,32 +9,37 @@
 // IWTSVirtualChannelManager is thus, passed to the plugin by the Remote Desktop Services subsystem.
 IFACEMETHODIMP CToyPluginImpl::Initialize(IWTSVirtualChannelManager* pChannelMgr)
 {
-    unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
-    std::wcout << "Creating listener for channel SamplePluginChannel from CToyPluginImpl::Initialize." << std::endl;
-    return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
-    return S_OK;
-}
+    ComPtr<IUnknown> pUnknown;
+    Log(L"QueryPluginServiceProvider", pChannelMgr->QueryInterface(IID_PPV_ARGS(&_pPluginServiceProvider)));
+    Log(L"GetWindowInfoService", _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_INFO_SERVICE, &pUnknown));
+    Log(L"QueryWindowInfoService", pUnknown.As(&_pWindowInfoService));
+    Log(L"GetWindowParentService", _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_PARENT_SERVICE, &pUnknown));
+    Log(L"QueryWindowParentService", pUnknown.As(&_pWindowParentService));
 
-IFACEMETHODIMP CToyPluginImpl::InitializeWithChannelManager(IWTSVirtualChannelManager* pChannelMgr)
-{
     unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
-    std::wcout << "Creating listener for channel SamplePluginChannel from CToyPluginImpl::InitializeWithChannelManager." << std::endl;
-    return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
-    return S_OK;
+    Log(L"Creating listener for channel SamplePluginChannel from CToyPluginImpl::Initialize.");
+    auto hr = pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
+
+    Log(L"CreateListener", hr);
+    return hr;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Connected(void)
 {
+    Log(L"Running compositor with window info service from CToyPluginImpl::Connected.");
+    _compositor.Run(_pWindowParentService);
     return S_OK;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Disconnected(DWORD dwDisconnectCode)
 {
+    Log(L"Disconnecting from CToyPluginImpl::Disconnected.");
     return S_OK;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Terminated(void)
 {
+    Log(L"Terminating from CToyPluginImpl::Terminated.");
     _pListener->Release();
     _pWindowInfoService->Release();
     _pPluginServiceProvider->Release();

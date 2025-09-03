@@ -15,8 +15,8 @@
     
     <Identity
       Name="fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c"
-      Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-      Version="1.0.40.0" />
+      Publisher="CN=ribanerjee"
+      Version="1.0.42.0" />
 
     <Properties>
         <DisplayName>SamplePluginModel</DisplayName>
@@ -47,7 +47,7 @@
 
             <uap:VisualElements
                 AppListEntry="none"
-                DisplayName="SamplePlugin"
+                DisplayName="SampleVdiPlugin"
                 Description="This is a sample plugin that is meant to demo sample out of proc plugin capabilities."
                 BackgroundColor="transparent"
                 Square150x150Logo="Images\Square150x150Logo.png"
@@ -90,53 +90,23 @@
     </Applications>
 
     <Capabilities>
-        <rescap:Capability
-		  Name="userPrincipalName" />
-        <rescap:Capability
-		  Name="isolatedWin32-accessToPublisherDirectory" />
-        <rescap:Capability
-		  Name="packageQuery" />
-        <rescap:Capability
-		  Name="packageManagement" />
-        <rescap:Capability
-		  Name="lpacMedia" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
+        <!-- 
+        Even though this is a packaged application still we use runFullTrust because we use packaged COM for out-of-process IPC (registering/activating an OOP COM server from this package). 
+        COM/OOP servers in MSIX usually need to run at full trust, because they call Win32 APIs, access the registry, do IPC, etc.
+        But this isn't a full blown Medium IL normal desktop exe because we use,
+        uap18:EntryPoint="Isolated.App"
+        uap18:TrustLevel="appContainer": Forces the EXE into an AppContainer sandbox. Without this, Windows.FullTrustApplication would mean “run like a normal desktop EXE” (Medium IL). With it, your EXE runs with AppContainer restrictions, but still has enough capabilities to function as a COM server.
+        uap18:RuntimeBehavior="appSilo": An AppSilo is a special kind of container for isolated desktop processes. It sits between UWP sandboxing and full Win32 freedom. In COM plugin scenarios, this is used so the system can run COM server in a secure bubble while still allowing COM activation.
+        -->
         <rescap:Capability
-		  Name="locationHistory" />
-        <rescap:Capability
-		  Name="xboxAccessoryManagement" />
-        <rescap:Capability
-		  Name="childWebContent" />
-        <rescap:Capability
-		  Name="isolatedWin32-userProfileMinimal" />
+		  Name="runFullTrust" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <Capability
 		  Name="internetClientServer" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <Capability
-		  Name="privateNetworkClientServer" />
-        <uap:Capability
-		  Name="sharedUserCertificates" />
-        <!--Include (uncomment) the capability below if, when your application is denied access to a file, you'd like the user to be prompted for access. This is not recommended unless it unblocks critical application scenarios. See summary.txt for details on files impacted under missing capability coverage for Type: File.-->
-        <rescap:Capability
-		  Name="isolatedWin32-promptForAccess" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <Capability
 		  Name="internetClient" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <rescap:Capability
-		  Name="runFullTrust" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="wiFiControl" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="webcam" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="microphone" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="location" />
     </Capabilities>
 </Package>
