@@ -90,53 +90,13 @@
     </Applications>
 
     <Capabilities>
-        <rescap:Capability
-		  Name="userPrincipalName" />
-        <rescap:Capability
-		  Name="isolatedWin32-accessToPublisherDirectory" />
-        <rescap:Capability
-		  Name="packageQuery" />
-        <rescap:Capability
-		  Name="packageManagement" />
-        <rescap:Capability
-		  Name="lpacMedia" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <rescap:Capability
-		  Name="locationHistory" />
-        <rescap:Capability
-		  Name="xboxAccessoryManagement" />
-        <rescap:Capability
-		  Name="childWebContent" />
-        <rescap:Capability
-		  Name="isolatedWin32-userProfileMinimal" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <Capability
 		  Name="internetClientServer" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <Capability
-		  Name="privateNetworkClientServer" />
-        <uap:Capability
-		  Name="sharedUserCertificates" />
-        <!--Include (uncomment) the capability below if, when your application is denied access to a file, you'd like the user to be prompted for access. This is not recommended unless it unblocks critical application scenarios. See summary.txt for details on files impacted under missing capability coverage for Type: File.-->
-        <rescap:Capability
-		  Name="isolatedWin32-promptForAccess" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <Capability
 		  Name="internetClient" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <rescap:Capability
 		  Name="runFullTrust" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="wiFiControl" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="webcam" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="microphone" />
-        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
-        <DeviceCapability
-		  Name="location" />
     </Capabilities>
 </Package>
