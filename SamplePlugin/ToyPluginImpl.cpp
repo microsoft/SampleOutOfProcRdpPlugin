@@ -9,29 +9,38 @@
 // IWTSVirtualChannelManager is thus, passed to the plugin by the Remote Desktop Services subsystem.
 IFACEMETHODIMP CToyPluginImpl::Initialize(IWTSVirtualChannelManager* pChannelMgr)
 {
-    pChannelMgr->QueryInterface(IID_PPV_ARGS(&_pPluginServiceProvider));
-    _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_INFO_SERVICE, &_pWindowInfoService);
+    std::wcout << "CToyPluginImpl::Initialize started" << std::endl;
+    // pChannelMgr->QueryInterface(IID_PPV_ARGS(&_pPluginServiceProvider));
+    // _pPluginServiceProvider->GetService(RDCLIENT_WINDOW_INFO_SERVICE, &_pWindowInfoService);
 
     unsigned char* pChannelName = (unsigned char*)"SamplePluginChannel";
     std::wcout << "Creating listener for channel SamplePluginChannel." << std::endl;
-    return pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
+    auto hr =  pChannelMgr->CreateListener(pChannelName, 0, this, _pListener.ReleaseAndGetAddressOf());
+    std::wcout << "CToyPluginImpl::Initialize ended\n" << std::endl;
+    return hr;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Connected(void)
 {
+    std::wcout << "CToyPluginImpl::Connected started" << std::endl;
+    std::wcout << "CToyPluginImpl::Connected ended\n" << std::endl;
     return S_OK;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Disconnected(DWORD dwDisconnectCode)
 {
+    std::wcout << "CToyPluginImpl::Disconnected started" << std::endl;
+    std::wcout << "CToyPluginImpl::Disconnected ended\n" << std::endl;
     return S_OK;
 }
 
 IFACEMETHODIMP CToyPluginImpl::Terminated(void)
 {
+    std::wcout << "CToyPluginImpl::Terminated started" << std::endl;
     _pListener->Release();
     _pWindowInfoService->Release();
     _pPluginServiceProvider->Release();
+    std::wcout << "CToyPluginImpl::Terminated ended\n" << std::endl;
     return S_OK;
 }
 
@@ -42,6 +51,7 @@ IFACEMETHODIMP CToyPluginImpl::OnNewChannelConnection(
     BOOL* pbAccept,
     IWTSVirtualChannelCallback** ppCallback)
 {
+    std::wcout << "CToyPluginImpl::OnNewChannelConnection started" << std::endl;
     // Assuming the connection is accepted trivialy, since, this is a toy plugin.
     *pbAccept = true;
 
@@ -49,6 +59,8 @@ IFACEMETHODIMP CToyPluginImpl::OnNewChannelConnection(
     ComPtr<IWTSVirtualChannelCallback> pVirtualChannelCallback = 
         Make<CToyPluginVirtualChannelCallbackImpl>(pChannel, _pWindowInfoService);
     pVirtualChannelCallback.CopyTo(ppCallback);
+
+    std::wcout << "CToyPluginImpl::OnNewChannelConnection ended\n" << std::endl;
 
     return S_OK;
 }

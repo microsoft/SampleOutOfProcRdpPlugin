@@ -16,6 +16,8 @@ typedef HRESULT(VCAPITYPE* PFNVCAPIGETINSTANCE)(
 
 IFACEMETHODIMP CToyPlugin::CreatePlugin(long index, IWTSPlugin** plugin)
 {
+    std::wcout << "CToyPlugin::CreatePlugin started" << std::endl;
+
     if (!plugin)
     {
         std::wcout << "CreatePlugin failed as plugin is null. error:" << E_POINTER << std::endl;
@@ -28,8 +30,6 @@ IFACEMETHODIMP CToyPlugin::CreatePlugin(long index, IWTSPlugin** plugin)
         return E_NOTIMPL;
     }
 
-    std::wcout << "Creating plugin using CToyPluginImpl." << std::endl;
-
     ComPtr<CToyPluginImpl> pToyPlugin;
     HRESULT hr = MakeAndInitialize<CToyPluginImpl>(&pToyPlugin);
 
@@ -41,12 +41,16 @@ IFACEMETHODIMP CToyPlugin::CreatePlugin(long index, IWTSPlugin** plugin)
     // Return the plugin pointer to the caller and detach from the smart pointer. 
     *plugin = pToyPlugin.Detach();
 
+    std::wcout << "CToyPlugin::CreatePlugin ended\n" << std::endl;
+
     return S_OK;
 }
 
 IFACEMETHODIMP CToyPlugin::GetPluginCount(long* count)
 {
+    std::wcout << "CToyPlugin::GetPluginCount started" << std::endl;
     // Assuming there is only 1 plugin per process, since, this is a toy example.
     *count = 1;
+    std::wcout << "CToyPlugin::GetPluginCount ended\n" << std::endl;
     return S_OK;
 }

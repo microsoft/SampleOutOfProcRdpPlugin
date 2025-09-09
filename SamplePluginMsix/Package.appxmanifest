@@ -16,7 +16,7 @@
     <Identity
       Name="fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c"
       Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-      Version="1.0.36.0" />
+      Version="1.0.44.0" />
 
     <Properties>
         <DisplayName>SamplePluginModel</DisplayName>
@@ -90,6 +90,7 @@
     </Applications>
 
     <Capabilities>
+        <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <Capability
 		  Name="internetClientServer" />
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->

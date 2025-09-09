@@ -66,7 +66,8 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <AppInstallerUri>$(SolutionDir)SampleOutOfProcRdpPlugin\SamplePluginMsix\</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>C1B9D235146D969D4436BE60F98FF20596E8477A</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>SamplePluginMsix_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <!-- <PackageCertificateThumbprint>C1B9D235146D969D4436BE60F98FF20596E8477A</PackageCertificateThumbprint> -->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <AppxBundle>Never</AppxBundle>
@@ -112,6 +113,7 @@
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="README.md" />
+    <None Include="SamplePluginMsix_TemporaryKey.pfx" />
     <Content Include="SamplePluginProxyStub.dll" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
