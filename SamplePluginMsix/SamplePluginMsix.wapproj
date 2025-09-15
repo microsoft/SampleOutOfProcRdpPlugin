@@ -56,7 +56,7 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <AppxOSMaxVersionTestedReplaceManifestVersion>false</AppxOSMaxVersionTestedReplaceManifestVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\SamplePlugin\SamplePlugin.vcxproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
@@ -107,11 +107,10 @@
   <ItemGroup>
     <Content Include="Images\SplashScreen.scale-200.png" />
     <Content Include="Images\LockScreenLogo.scale-200.png" />
-    <Content Include="Images\Square150x150Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.scale-200.png" />
+    <Content Include="Images\Square150x150Logo.png" />
+    <Content Include="Images\Square44x44Logo.png" />
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
-    <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="README.md" />
     <None Include="SamplePluginMsix_TemporaryKey.pfx" />
     <Content Include="SamplePluginProxyStub.dll" />

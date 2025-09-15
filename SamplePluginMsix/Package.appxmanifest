@@ -14,13 +14,13 @@
   IgnorableNamespaces="uap uap10 uap11 rescap uap18">
     
     <Identity
-      Name="fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c"
+      Name="MicrosoftCorporationII.fb3b91ad-b5a6-40ec-a2a1-d09"
       Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-      Version="1.0.44.0" />
+      Version="1.0.65.0" />
 
     <Properties>
-        <DisplayName>SamplePluginModel</DisplayName>
-        <PublisherDisplayName>Microsoft Corp</PublisherDisplayName>
+        <DisplayName>fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c</DisplayName>
+        <PublisherDisplayName>Microsoft Corp.</PublisherDisplayName>
         <Logo>Images\StoreLogo.png</Logo>
     </Properties>
 
@@ -52,7 +52,6 @@
                 BackgroundColor="transparent"
                 Square150x150Logo="Images\Square150x150Logo.png"
                 Square44x44Logo="Images\Square44x44Logo.png">
-                <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
                 <uap:SplashScreen Image="Images\SplashScreen.png" />
             </uap:VisualElements>
 
