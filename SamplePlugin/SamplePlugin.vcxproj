@@ -45,7 +45,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);WindowsApp.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);WindowsApp.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;</AdditionalDependencies>
     </Link>
     <Midl>
       <OutputDirectory>../MidlGeneratedFiles</OutputDirectory>
@@ -53,6 +53,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h" />
+    <ClInclude Include="DirectX3DRendering.hpp" />
     <ClInclude Include="IWTSWindowChangedCallbackImpl.h" />
     <ClInclude Include="ToyPluginImpl.h" />
     <ClInclude Include="IWTSVirtualChannelCallbackImpl.h" />
@@ -64,6 +65,7 @@
     <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
+    <ClCompile Include="DirectX3DRendering.cpp" />
     <ClCompile Include="IWTSWindowChangedCallbackImpl.cpp" />
     <ClCompile Include="ToyPluginImpl.cpp" />
     <ClCompile Include="IWTSVirtualChannelCallbackImpl.cpp" />
