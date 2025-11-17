@@ -1,4 +1,4 @@
 #pragma once
 #include "pch.h"
 
-void DirectX3DRender();
+int DirectX3DRender(HINSTANCE hInst, LPWSTR cmdLine, int nCmdShow);

@@ -10,6 +10,7 @@
 
 
 using namespace DirectX;
+using namespace::std;
 
 // === Global D3D handles ===
 HWND                    g_hWnd{};
@@ -26,6 +27,10 @@ ID3D11VertexShader*     g_vs{};
 ID3D11PixelShader*      g_ps{};
 ID3D11InputLayout*      g_il{};
 ID3D11Buffer*           g_cb{};
+UINT                    g_width{};
+UINT                    g_height{};
+std::atomic_bool        g_running{ false };
+std::thread             g_renderThread;
 
 struct Vertex { XMFLOAT3 pos; XMFLOAT3 nrm; };
 struct CB
@@ -112,6 +117,9 @@ HRESULT CreateDeviceAndSwapChain(UINT w, UINT h)
 
 HRESULT CreateRTVAndDSV(UINT w, UINT h)
 {
+    g_width = w;
+    g_height = h;
+
     ID3D11Texture2D* backBuffer{};
     HRESULT hr = g_swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
     if (FAILED(hr)) return hr;
@@ -129,7 +137,20 @@ HRESULT CreateRTVAndDSV(UINT w, UINT h)
 
     hr = g_dev->CreateTexture2D(&dsd, nullptr, &g_ds);
     if (FAILED(hr)) return hr;
-    return g_dev->CreateDepthStencilView(g_ds, nullptr, &g_dsv);
+    hr = g_dev->CreateDepthStencilView(g_ds, nullptr, &g_dsv);
+    if (FAILED(hr)) return hr;
+
+    // Set viewport whenever render targets are (re)created
+    D3D11_VIEWPORT vp{};
+    vp.TopLeftX = 0.0f;
+    vp.TopLeftY = 0.0f;
+    vp.Width = static_cast<float>(w);
+    vp.Height = static_cast<float>(h);
+    vp.MinDepth = 0.0f;
+    vp.MaxDepth = 1.0f;
+    g_ctx->RSSetViewports(1, &vp);
+
+    return S_OK;
 }
 
 HRESULT CreatePipelineAndGeometry()
@@ -226,6 +247,56 @@ void Resize(UINT w, UINT h)
     CreateRTVAndDSV(w, h);
 }
 
+static void RenderLoop()
+{
+    auto start = std::chrono::steady_clock::now();
+    MSG msg{};
+    while (g_running.load())
+    {
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT) { g_running.store(false); break; }
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+
+        float t = std::chrono::duration<float>(std::chrono::steady_clock::now() - start).count();
+
+        XMMATRIX model = XMMatrixRotationY(t);
+        XMVECTOR eye = XMVectorSet(0, 0, -3, 1);
+        XMVECTOR at = XMVectorZero();
+        XMVECTOR up = XMVectorSet(0, 1, 0, 0);
+        XMMATRIX view = XMMatrixLookAtLH(eye, at, up);
+        XMMATRIX proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, g_width / (float)g_height, 0.1f, 100.0f);
+        XMMATRIX mvp = model * view * proj;
+
+        CB cb{};
+        cb.mvp = XMMatrixTranspose(mvp);
+        cb.model = XMMatrixTranspose(model);
+        XMStoreFloat3(&cb.lightDir, XMVector3Normalize(XMVectorSet(0.5f, -1.0f, -0.5f, 0)));
+        XMStoreFloat3(&cb.eyePos, eye);
+        g_ctx->UpdateSubresource(g_cb, 0, nullptr, &cb, 0, 0);
+
+        FLOAT clearColor[4] = { 0.05f, 0.05f, 0.1f, 1.0f };
+        g_ctx->ClearRenderTargetView(g_rtv, clearColor);
+        g_ctx->ClearDepthStencilView(g_dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
+        g_ctx->OMSetRenderTargets(1, &g_rtv, g_dsv);
+
+        UINT stride = sizeof(Vertex), offset = 0;
+        g_ctx->IASetInputLayout(g_il);
+        g_ctx->IASetVertexBuffers(0, 1, &g_vb, &stride, &offset);
+        g_ctx->IASetIndexBuffer(g_ib, DXGI_FORMAT_R32_UINT, 0);
+        g_ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        g_ctx->VSSetShader(g_vs, nullptr, 0);
+        g_ctx->PSSetShader(g_ps, nullptr, 0);
+        g_ctx->VSSetConstantBuffers(0, 1, &g_cb);
+        g_ctx->PSSetConstantBuffers(0, 1, &g_cb);
+
+        g_ctx->DrawIndexed(g_indexCount, 0, 0);
+        g_swap->Present(1, 0);
+    }
+}
+
 // === Window proc ===
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -235,10 +306,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-// === Entry point ===
-void DirectX3DRender()
+int DirectX3DRender(HINSTANCE hInst, LPWSTR cmdLine, int nCmdShow)
 {
-    // Create Win32 window
+    if (g_running.load()) return 0; // Already running
+
     WNDCLASS wc{ CS_OWNDC, WndProc, 0,0, GetModuleHandle(NULL), nullptr, LoadCursor(NULL, IDC_ARROW), (HBRUSH)(COLOR_WINDOW + 1), nullptr, L"SphereWnd" };
     RegisterClass(&wc);
     g_hWnd = CreateWindow(L"SphereWnd", L"Direct3D11 Spinning Sphere", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
@@ -247,63 +318,22 @@ void DirectX3DRender()
     RECT rc; GetClientRect(g_hWnd, &rc);
     UINT width = rc.right - rc.left, height = rc.bottom - rc.top;
 
-    CreateDeviceAndSwapChain(width, height);
-    CreateRTVAndDSV(width, height);
-    CreatePipelineAndGeometry();
+    if (FAILED(CreateDeviceAndSwapChain(width, height))) return -1;
+    if (FAILED(CreateRTVAndDSV(width, height))) return -2;
+    if (FAILED(CreatePipelineAndGeometry()))   return -3;
 
-    auto start = std::chrono::steady_clock::now();
+    g_running.store(true);
+    g_renderThread = std::thread(RenderLoop);
+    return 0;
+}
 
-    // === Main render loop ===
-    MSG msg{};
-    while (msg.message != WM_QUIT)
+void ShutdownDirectX()
+{
+    if (g_running.exchange(false))
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        else
-        {
-            auto now = std::chrono::steady_clock::now();
-            float t = std::chrono::duration<float>(now - start).count();
-
-            // Matrices
-            XMMATRIX model = XMMatrixRotationY(t);
-            XMVECTOR eye = XMVectorSet(0, 0, -3, 1);
-            XMVECTOR at = XMVectorZero();
-            XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-            XMMATRIX view = XMMatrixLookAtLH(eye, at, up);
-            XMMATRIX proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (float)height, 0.1f, 100.0f);
-            XMMATRIX mvp = model * view * proj;
-
-            CB cb{};
-            cb.mvp = XMMatrixTranspose(mvp);
-            cb.model = XMMatrixTranspose(model);
-            XMStoreFloat3(&cb.lightDir, XMVector3Normalize(XMVectorSet(0.5f, -1.0f, -0.5f, 0)));
-            XMStoreFloat3(&cb.eyePos, eye);
-            g_ctx->UpdateSubresource(g_cb, 0, nullptr, &cb, 0, 0);
-
-            FLOAT clearColor[4] = { 0.05f, 0.05f, 0.1f, 1.0f };
-            g_ctx->ClearRenderTargetView(g_rtv, clearColor);
-            g_ctx->ClearDepthStencilView(g_dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
-            g_ctx->OMSetRenderTargets(1, &g_rtv, g_dsv);
-
-            UINT stride = sizeof(Vertex), offset = 0;
-            g_ctx->IASetInputLayout(g_il);
-            g_ctx->IASetVertexBuffers(0, 1, &g_vb, &stride, &offset);
-            g_ctx->IASetIndexBuffer(g_ib, DXGI_FORMAT_R32_UINT, 0);
-            g_ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-            g_ctx->VSSetShader(g_vs, nullptr, 0);
-            g_ctx->PSSetShader(g_ps, nullptr, 0);
-            g_ctx->VSSetConstantBuffers(0, 1, &g_cb);
-            g_ctx->PSSetConstantBuffers(0, 1, &g_cb);
-
-            g_ctx->DrawIndexed(g_indexCount, 0, 0);
-            g_swap->Present(1, 0);
-        }
+        PostMessage(g_hWnd, WM_QUIT, 0, 0);
+        if (g_renderThread.joinable()) g_renderThread.join();
     }
-
-    // Cleanup
     SafeRelease(g_cb);
     SafeRelease(g_ib);
     SafeRelease(g_vb);

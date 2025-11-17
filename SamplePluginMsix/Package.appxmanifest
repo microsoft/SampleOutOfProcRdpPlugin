@@ -16,7 +16,7 @@
     <Identity
       Name="MicrosoftCorporationII.fb3b91ad-b5a6-40ec-a2a1-d09"
       Publisher="CN=ribanerjee"
-      Version="1.0.66.0" />
+      Version="1.0.73.0" />
 
     <Properties>
         <DisplayName>fb3b91ad-b5a6-40ec-a2a1-d0946ecea67c</DisplayName>
@@ -98,5 +98,8 @@
         <!--The capability below is privacy-sensitive. Access to resources under this capability are gated by user privacy consent.-->
         <rescap:Capability
 		  Name="runFullTrust" />
+        <!-- This is required for AppSilo testing. This prompt should not come up with Salah's file virtualization fix. -->
+        <rescap:Capability 
+          Name="isolatedWin32-promptForAccess"/>
     </Capabilities>
 </Package>
