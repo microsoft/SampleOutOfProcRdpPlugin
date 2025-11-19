@@ -39,6 +39,12 @@
     <ClInclude Include="DirectX3DRendering.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\MidlGeneratedFiles\tspubrpc_min.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MidlGeneratedFiles\tspubrpc_min_h.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,9 +77,21 @@
     <ClCompile Include="DirectX3DRendering.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TermSrvNotification.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidlGeneratedFiles\tspubrpc_min_c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MidlGeneratedFiles\tspubrpc_min_s.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\IWTSPlugin.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+    <Midl Include="tspubrpc_min.idl">
       <Filter>Source Files</Filter>
     </Midl>
   </ItemGroup>

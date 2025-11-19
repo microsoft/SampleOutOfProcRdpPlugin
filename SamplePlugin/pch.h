@@ -12,6 +12,11 @@
 // add headers that you want to pre-compile here
 #include <vector>
 #include <iostream>
+#include <atomic>
+#include <thread>
+#include <csignal>
+#include <string>
+
 
 #include <Windows.h>
 #include <shlobj.h>

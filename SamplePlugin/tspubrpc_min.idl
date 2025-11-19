@@ -1,0 +1,52 @@
+﻿// see for similar idl being used in OS:  https://microsoft.visualstudio.com/OS/_git/winblue.git.migrate?path=%2Ftermsrv%2Fnewsvc%2Fidl%2Ftspubrpc.idl&_a=contents&version=GBofficial%2Fwinblue_ltsb_git
+// tspubrpc_min.idl
+// Minimal IDL to call the LSM Notification interface (TermSrvNotification)
+// Sources: MS‑TSTS Open Specs (TermSrvNotification; TNotificationId; SESSION_CHANGE)  // (see citations)
+// Compile: midl /env x64 /robust tspubrpc_min.idl
+
+import "wtypes.idl";
+
+// Notification mask (subset) — MS‑TSTS TNotificationId values
+typedef unsigned long TNotificationId;
+const unsigned long WTS_NOTIFY_NONE = 0x00000000;
+const unsigned long WTS_NOTIFY_CONNECT = 0x00000002;
+const unsigned long WTS_NOTIFY_DISCONNECT = 0x00000004;
+const unsigned long WTS_NOTIFY_LOCK = 0x00000400;
+const unsigned long WTS_NOTIFY_UNLOCK = 0x00000800;
+
+// Handle returned by RpcRegisterAsyncNotification
+typedef [context_handle] void* NOTIFY_HANDLE;
+
+// Per-event payload
+typedef struct _SESSION_CHANGE {
+    long            SessionId;
+    TNotificationId NotificationId; // bitmask
+} SESSION_CHANGE, * PSESSION_CHANGE;
+
+[
+    uuid(11899a43-2b68-4a76-92e3-a3d6ad8c26ce), // LSM Notification
+    version(1.0),
+    pointer_default(unique)
+]
+interface TermSrvNotification
+{
+    // Register for notifications (SessionId: -1 = all sessions)
+    HRESULT RpcRegisterAsyncNotification(
+        [in] handle_t hBinding,
+        [in] long SessionId,
+        [in] TNotificationId Mask,
+        [out] NOTIFY_HANDLE* phNotify
+    );
+
+    // Wait for notifications; returns an array of SESSION_CHANGE
+    HRESULT RpcWaitAsyncNotification(
+        [in] NOTIFY_HANDLE hNotify,
+        [out, size_is(, *pEntries)] PSESSION_CHANGE* SessionChange,
+        [out] unsigned long* pEntries
+    );
+
+    // Cancel/unregister
+    HRESULT RpcUnRegisterAsyncNotification(
+        [in, out] NOTIFY_HANDLE* phNotify
+    );
+}

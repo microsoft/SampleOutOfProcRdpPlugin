@@ -53,6 +53,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\MidlGeneratedFiles\IWTSPlugin_h.h" />
+    <ClInclude Include="..\MidlGeneratedFiles\tspubrpc_min.h" />
+    <ClInclude Include="..\MidlGeneratedFiles\tspubrpc_min_h.h" />
     <ClInclude Include="DirectX3DRendering.hpp" />
     <ClInclude Include="IWTSWindowChangedCallbackImpl.h" />
     <ClInclude Include="ToyPluginImpl.h" />
@@ -65,8 +67,11 @@
     <ClCompile Include="..\MidlGeneratedFiles\dlldata.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_i.c" />
     <ClCompile Include="..\MidlGeneratedFiles\IWTSPlugin_p.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\tspubrpc_min_c.c" />
+    <ClCompile Include="..\MidlGeneratedFiles\tspubrpc_min_s.c" />
     <ClCompile Include="DirectX3DRendering.cpp" />
     <ClCompile Include="IWTSWindowChangedCallbackImpl.cpp" />
+    <ClCompile Include="TermSrvNotification.cpp" />
     <ClCompile Include="ToyPluginImpl.cpp" />
     <ClCompile Include="IWTSVirtualChannelCallbackImpl.cpp" />
     <ClCompile Include="main.cpp" />
@@ -75,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\IWTSPlugin.idl" />
+    <Midl Include="tspubrpc_min.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

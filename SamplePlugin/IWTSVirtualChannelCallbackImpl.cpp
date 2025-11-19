@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "DirectX3DRendering.hpp"
 #include "IWTSVirtualChannelCallbackImpl.h"
 #include "IWTSWindowChangedCallbackImpl.h"
 
@@ -15,10 +14,6 @@ IFACEMETHODIMP CToyPluginVirtualChannelCallbackImpl::OnDataReceived(ULONG cbSize
 
     std::string data(reinterpret_cast<char*>(pBuffer), cbSize);
     std::cout << "Plugin received: " << data << std::endl;
-
-    std::cout << "Rendering using DirectX" << std::endl;
-    DirectX3DRender(GetModuleHandle(NULL), GetCommandLineW(), SW_SHOW);
-    std::cout << "Rendered using DirectX" << std::endl;
 
     const char* response = "Goku left the power pole in between Kami's lookout and Coren Tower.";
     _pChannel->Write(strlen(response), (BYTE*)response, nullptr);

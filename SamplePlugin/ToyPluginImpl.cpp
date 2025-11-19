@@ -2,6 +2,8 @@
 #include "ToyPluginImpl.h"
 #include "IWTSVirtualChannelCallbackImpl.h"
 #include "../MidlGeneratedFiles/IWTSPlugin_h.h"
+#include "DirectX3DRendering.hpp"
+#include "TermSrvNotification.hpp"
 
 // Inherited via IWTSPlugin
 // Called by the Remote Desktop Services subsystem (specifically, the Remote Desktop Session Host process) 
@@ -24,6 +26,15 @@ IFACEMETHODIMP CToyPluginImpl::Connected(void)
 {
     std::wcout << "CToyPluginImpl::Connected started" << std::endl;
     std::wcout << "CToyPluginImpl::Connected ended\n" << std::endl;
+
+    std::cout << "Registering for session notifications." << std::endl;
+    GetSessionNotifications();
+    std::cout << "Registered for session notifications." << std::endl;
+
+    std::cout << "Rendering using DirectX" << std::endl;
+    DirectX3DRender(GetModuleHandle(NULL), GetCommandLineW(), SW_SHOW);
+    std::cout << "Rendered using DirectX" << std::endl;
+
     return S_OK;
 }
 
