@@ -81,6 +81,7 @@
                         PublicFolder="Public">
                         <uap3:Properties>
                             <ComServer>7B426A55-B731-482B-9D35-CF2A810712CB</ComServer>
+                            <InitializationDvcName>SamplePluginChannel</InitializationDvcName>
                         </uap3:Properties>
                     </uap3:AppExtension>
                 </uap3:Extension>
