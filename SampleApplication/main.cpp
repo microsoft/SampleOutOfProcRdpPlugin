@@ -10,6 +10,7 @@ using namespace Windows::Foundation;
 int main()
 {
     std::cout << "Starting SampleApplication" << std::endl;
+    std::cout << "Plugin version: 1.0.0" << std::endl;
     int _;
     std::cout << "Initializing the COM apartment" << std::endl;
     winrt::init_apartment();
