@@ -66,6 +66,13 @@
                         </com:ExeServer>
                     </com:ComServer>
                 </com:Extension>
+                <com:Extension Category="windows.comInterface">
+                    <com:ComInterface>
+                        <!-- Registers SamplePluginProxyStub.dll as the proxy/stub for cross-process marshalling of the plugin's custom IWTSPluginFactory interface (C0C62619). Without this, the client's cross-process QueryInterface(IID_IWTSPluginFactory) fails with E_NOINTERFACE and load aborts. -->
+                        <com:ProxyStub Id="A9FA1CF7-3024-433B-86A7-950621770265" DisplayName="SamplePluginProxyStub" Path="SamplePluginProxyStub.dll" />
+                        <com:Interface Id="C0C62619-3BC1-4095-9B9A-84503E37DAA5" ProxyStubClsid="A9FA1CF7-3024-433B-86A7-950621770265" />
+                    </com:ComInterface>
+                </com:Extension>
                 <uap3:Extension Category="windows.appExtension">
                     <uap3:AppExtension
                         Name="com.microsoft.rdp.plugin.wtsplugin"
@@ -75,6 +82,8 @@
                         PublicFolder="Public">
                         <uap3:Properties>
                             <ComServer>7B426A55-B731-482B-9D35-CF2A810712CB</ComServer>
+                            <!-- Maps the DVC channel name the CPC-side app opens to this plugin so the RDP client's RequestPlugin activates SamplePlugin.exe on demand. Without this the plugin never launches. -->
+                            <InitializationDvcName>SamplePluginChannel</InitializationDvcName>
                         </uap3:Properties>
                     </uap3:AppExtension>
                 </uap3:Extension>

@@ -4,6 +4,8 @@
 #include "ToyPluginImpl.h"
 #include "Log.h"
 
+using namespace std;
+
 #ifndef VCAPITYPE
 #define VCAPITYPE __stdcall
 #endif
@@ -18,17 +20,17 @@ IFACEMETHODIMP CToyPlugin::CreatePlugin(long index, IWTSPlugin** plugin)
 {
     if (!plugin)
     {
-        std::wcout << "CreatePlugin failed as plugin is null. error:" << E_POINTER << std::endl;
+        Log(L"CreatePlugin failed as plugin is null. error:" + to_wstring(E_POINTER));
         return E_POINTER;
     }
 
     if (index != 0)
     {
-        std::wcout << "CreatePlugin failed as index is " << index << ". error:" << E_NOTIMPL << std::endl;
+        Log(L"CreatePlugin failed as index is " + to_wstring(index) + L". error:" + to_wstring(E_NOTIMPL));
         return E_NOTIMPL;
     }
 
-    std::wcout << "Creating plugin using CToyPluginImpl." << std::endl;
+    Log(L"Creating plugin using CToyPluginImpl.");
 
     ComPtr<CToyPluginImpl> pToyPlugin;
     HRESULT hr = MakeAndInitialize<CToyPluginImpl>(&pToyPlugin);
