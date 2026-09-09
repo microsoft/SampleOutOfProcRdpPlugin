@@ -1,5 +1,7 @@
 #include "Compositor.h"
 
+using namespace std;
+
 // ----------------------------------------------------------------------------
 // Constructor / Destructor
 // ----------------------------------------------------------------------------
@@ -12,10 +14,9 @@ Compositor::Compositor()
 
 Compositor::~Compositor()
 {
-    // Any cleanup code you need
-    if (m_thread.joinable()) {
-        m_thread.join();
-    }
+    // Post WM_CLOSE and then join the worker thread. A bare join() deadlocks because the
+    // worker blocks in GetMessageW until it receives WM_QUIT (WM_CLOSE -> WM_DESTROY -> PostQuitMessage).
+    Shutdown();
 }
 
 HRESULT Compositor::Run(ComPtr<IWTSWindowParentService> pWindowParentService)
@@ -27,7 +28,7 @@ HRESULT Compositor::Run(ComPtr<IWTSWindowParentService> pWindowParentService)
         &pStream
     ));
 
-    m_thread = std::thread(&Compositor::WorkerThreadMain, this, pStream);
+    m_thread = thread(&Compositor::WorkerThreadMain, this, pStream);
 
     return S_OK;
 }

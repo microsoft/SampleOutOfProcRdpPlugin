@@ -11,6 +11,7 @@
 #pragma comment(lib, "Shlwapi.lib")
 
 using namespace Microsoft::WRL;
+using namespace std;
 
 static HANDLE g_hStopEvent = NULL;
 
@@ -83,13 +84,13 @@ bool HasPackageIdentity()
     if (result == ERROR_INSUFFICIENT_BUFFER)
     {
         // Use a smart pointer to avoid manual new/delete.
-        std::unique_ptr<wchar_t[]> packageFullName(new wchar_t[length]);
+        unique_ptr<wchar_t[]> packageFullName(new wchar_t[length]);
 
         result = ::GetCurrentPackageFullName(&length, packageFullName.get());
         if (result == ERROR_SUCCESS)
         {
             // Build a log message with the retrieved package name
-            std::wstring msg = L"Package Full Name: ";
+            wstring msg = L"Package Full Name: ";
             msg += packageFullName.get();
 
             // Log the package full name
@@ -127,7 +128,7 @@ void LogTokenInformation()
         return;
     }
 
-    auto boolToWString = [](bool b) -> std::wstring { return b ? L"true" : L"false"; };
+    auto boolToWString = [](bool b) -> wstring { return b ? L"true" : L"false"; };
 
     auto message = L"Process Information:\r\n-----Is AppContainer: "
         + boolToWString(isAppContainer == TRUE)
@@ -155,6 +156,11 @@ int main()
 
     AbortOnFailed(globalOptions->Set(COMGLB_RO_SETTINGS, COMGLB_FAST_RUNDOWN), L"SetGlobalOptions");
     AbortOnFailed(CoInitializeSecurity(NULL, -1, NULL, NULL, RPC_C_AUTHN_LEVEL_DEFAULT, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE, 0), L"CoInitializeSecurity");
+
+    // Create the manual-reset event that Shutdown() signals and WaitForShutdown() waits on.
+    // Without this call g_hStopEvent stays NULL, Shutdown()'s SetEvent is skipped, and the
+    // process never exits when the WRL object count reaches zero.
+    InitializeEvent();
 
     // Creates a singleton instance of the Module<OutOfProc> object.
     // Registers a shutdown callback when the last instance object of the module is released.

@@ -37,9 +37,12 @@ IFACEMETHODIMP CToyPluginImpl::Disconnected(DWORD dwDisconnectCode)
 
 IFACEMETHODIMP CToyPluginImpl::Terminated(void)
 {
-    _pListener->Release();
-    _pWindowInfoService->Release();
-    _pPluginServiceProvider->Release();
+    // Reset() releases AND nulls each ComPtr so the destructor won't Release() them a second
+    // time. Raw ->Release() left the smart pointers dangling, causing a double-release/crash
+    // mid-destructor that prevented the WRL object count from reaching zero (process hung).
+    _pListener.Reset();
+    _pWindowInfoService.Reset();
+    _pPluginServiceProvider.Reset();
     return S_OK;
 }
 
